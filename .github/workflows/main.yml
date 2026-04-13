@@ -21,4 +21,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: chiri_ce_rev1_vial
-          path: .build/*.uf2
+          path: '**/*.uf2'
