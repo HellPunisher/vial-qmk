@@ -16,9 +16,17 @@ jobs:
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           qmk compile -kb keebio/chiri_ce/rev1 -km vial
+          echo "=== ГДЕ МОЙ ФАЙЛ? ==="
+          find . -maxdepth 2 -type f \( -name "*.uf2" -o -name "*.hex" -o -name "*.bin" \)
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: chiri_ce_rev1_vial
-          path: '**/*.uf2'
+          name: chiri_ce_rev1_vial_firmware
+          path: |
+            *.uf2
+            *.hex
+            *.bin
+            .build/*.uf2
+            .build/*.hex
+            .build/*.bin
