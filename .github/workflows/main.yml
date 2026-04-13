@@ -4,20 +4,21 @@ on: [workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: ghcr.io/qmk/qmk_cli:latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: recursive
+          fetch-depth: 0
 
-      - name: Setup QMK
-        uses: qmk/setup-qmk@v1
-
-      - name: Compile Firmware
-        run: qmk compile -kb keebio/chiri_ce/rev1 -km vial
+      - name: Build Firmware
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          qmk compile -kb keebio/chiri_ce/rev1 -km vial
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: chiri_ce_rev1_vial
           path: .build/*.uf2
