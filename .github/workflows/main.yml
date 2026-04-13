@@ -1,0 +1,23 @@
+name: Build Chiri CE Firmware
+on: [workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Setup QMK
+        uses: qmk/setup-qmk@v1
+
+      - name: Compile Firmware
+        run: qmk compile -kb keebio/chiri_ce/rev1 -km vial
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: chiri_ce_rev1_vial
+          path: .build/*.uf2
